@@ -9,6 +9,8 @@ import HomePage from "./Pages/HomePage.jsx";
 import Login from "./Components/Login/Login.jsx";
 import Register from "./Components/Register/Register.jsx";
 import AuthProvider from "./Components/AuthContext/AuthProvider.jsx";
+import AddHabitPage from "./Pages/AddHabitPage.jsx";
+import PrivateRoute from "./PrivateRoute/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,14 @@ const router = createBrowserRouter([
       {
         path: "/register",
         Component: Register,
+      },
+      {
+        path: "/addhabit",
+        element: (
+          <PrivateRoute>
+            <AddHabitPage></AddHabitPage>
+          </PrivateRoute>
+        ),
       },
     ],
   },
