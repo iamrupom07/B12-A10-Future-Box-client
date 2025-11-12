@@ -28,7 +28,7 @@ const Navbar = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to={"/publichabits"}>Browse Public Habit</NavLink>
+        <NavLink to={"/allhabits"}>Browse Public Habit</NavLink>
       </li>
       {user ? (
         <>

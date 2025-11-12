@@ -13,6 +13,7 @@ import AddHabitPage from "./Pages/AddHabitPage.jsx";
 import PrivateRoute from "./PrivateRoute/PrivateRoute.jsx";
 import HabitDetails from "./Components/HabitDetails/HabitDetails.jsx";
 import HabitDetailsPage from "./Pages/HabitDetailsPage.jsx";
+import AllHabitPage from "./Pages/AllHabitPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
             <AddHabitPage></AddHabitPage>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/allhabits",
+        loader: () => fetch("http://localhost:3000/allhabits"),
+        element: <AllHabitPage></AllHabitPage>,
       },
       {
         path: "/habitdetails/:id",
