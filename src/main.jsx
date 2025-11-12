@@ -11,6 +11,8 @@ import Register from "./Components/Register/Register.jsx";
 import AuthProvider from "./Components/AuthContext/AuthProvider.jsx";
 import AddHabitPage from "./Pages/AddHabitPage.jsx";
 import PrivateRoute from "./PrivateRoute/PrivateRoute.jsx";
+import HabitDetails from "./Components/HabitDetails/HabitDetails.jsx";
+import HabitDetailsPage from "./Pages/HabitDetailsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        loader: () => fetch("http://localhost:3000/featuredHabits"),
         Component: HomePage,
       },
       {
@@ -34,6 +37,16 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddHabitPage></AddHabitPage>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/habitdetails/:id",
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/allhabits/${params.id}`),
+        element: (
+          <PrivateRoute>
+            <HabitDetailsPage></HabitDetailsPage>
           </PrivateRoute>
         ),
       },
