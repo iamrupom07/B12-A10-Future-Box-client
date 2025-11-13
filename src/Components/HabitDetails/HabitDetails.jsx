@@ -1,108 +1,138 @@
-import React from "react";
-import { FaArrowRightLong } from "react-icons/fa6";
+import React, { useState } from "react";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const HabitDetails = ({ datas }) => {
-  const singleData = datas;
+  const [habit, setHabit] = useState(datas);
+  const [loading, setLoading] = useState(false);
+
+  if (!habit) {
+    return (
+      <div className="min-h-screen flex justify-center items-center text-gray-500">
+        Loading habit details...
+      </div>
+    );
+  }
+
+  const isCompletedToday = () => {
+    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+    return habit?.completionHistory?.includes(today);
+  };
+
+  const handleComplete = async () => {
+    if (isCompletedToday()) return;
+
+    setLoading(true);
+
+    const today = new Date().toISOString().split("T")[0];
+    const updatedHistory = [...(habit.completionHistory || []), today];
+
+    try {
+      const res = await fetch(`http://localhost:3000/allhabits/${habit._id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ completionHistory: updatedHistory }),
+      });
+
+      if (!res.ok) throw new Error("Failed to mark habit complete");
+
+      setHabit({ ...habit, completionHistory: updatedHistory });
+    } catch (err) {
+      console.error(err);
+      alert("Error marking habit as complete");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div>
-      <div className="hero bg-base-200 min-h-screen">
-        <div className="hero-content flex-col lg:flex-row">
-          <div className="w-1/3 flex flex-col gap-3 max-lg:w-full justify-center items-center">
+    <div className="p-6 bg-base-200 min-h-screen flex items-center">
+      <div className="lg:max-w-5xl mx-auto">
+        {/* Header / Back */}
+        <button
+          onClick={() => window.history.back()}
+          className="flex items-center gap-2 text-blue-600 hover:underline mb-6"
+        >
+          <FaArrowLeftLong /> Back to Habits
+        </button>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          {/* Left: Habit Image */}
+          <div className="aspect-[308/213]">
             <img
-              src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.webp"
-              className="w-96 rounded-lg "
+              src={
+                habit?.image ||
+                "https://via.placeholder.com/600x400?text=No+Image+Available"
+              }
+              alt={habit?.title || "Habit"}
+              className="object-cover w-full h-full rounded-xl shadow-md"
             />
-            <div className="card w-full bg-base-100 card-md shadow-sm">
-              <div className="card-body">
-                <h2 className="card-title">Product Description</h2>
-                <div className="flex justify-between">
-                  <p className="font-bold text-purple-700">
-                    Condition :{" "}
-                    <span className="font-normal text-black">
-                      {singleData.condition}
-                    </span>
-                  </p>
-                  <p className="font-bold text-purple-700">
-                    Used Time :{" "}
-                    <span className="font-normal text-black">
-                      {singleData.usage}
-                    </span>
-                  </p>
-                </div>
-                <hr />
-                <p className="my-4">{singleData.description}</p>
-              </div>
-            </div>
           </div>
-          <div className="w-2/3 max-lg:w-full my-2 ">
-            <p className="flex gap-2 items-center">
-              <FaArrowRightLong /> Back to Products
+
+          {/* Right: Habit Details */}
+          <div>
+            <h2 className="text-4xl font-bold text-green-700 mb-3">
+              {habit?.title}
+            </h2>
+            <p className="text-gray-700 mb-5 leading-relaxed">
+              {habit?.description}
             </p>
-            <h1 className="card-title text-4xl my-2">{datas.title}</h1>
-            <div className="badge badge-outline bg-purple-200 text-purple-700">
-              {singleData.category}
+
+            {/* Meta Info */}
+            <div className="space-y-2 mb-6">
+              <p>
+                <strong>Category:</strong>{" "}
+                <span className="text-green-600 font-medium">
+                  {habit?.category}
+                </span>
+              </p>
+              <p>
+                <strong>Reminder Time:</strong>{" "}
+                <span className="text-blue-600">{habit?.reminderTime}</span>
+              </p>
+              <p>
+                <strong>Created By:</strong> {habit?.creatorName} (
+                {habit?.creatorEmail})
+              </p>
+              <p>
+                <strong>Created At:</strong>{" "}
+                {new Date(habit?.createdAt).toLocaleString()}
+              </p>
             </div>
 
-            <div className="card w-96 bg-base-100 card-md  my-3">
-              <div className="card-body">
-                <p className="text-green-500 font-bold card-title">
-                  ${singleData.price_min}- {singleData.price_max}
-                </p>
-                <p>Price start from</p>
-              </div>
-            </div>
-            <div className="card w-96 bg-base-100 card-md  my-3">
-              <div className="card-body">
-                <p className=" font-bold card-title">Product Details</p>
-                <p className="font-bold">
-                  Product ID :{" "}
-                  <span className="font-normal">{singleData._id}</span>
-                </p>
-                <p className="font-bold">
-                  Posted :{" "}
-                  <span className="font-normal">{singleData.created_at}</span>
-                </p>
-              </div>
-            </div>
-            <div className="card w-96 bg-base-100 card-md  my-3">
-              <div className="card-body">
-                <p className=" font-bold card-title">Seller Information</p>
-
-                <ul className="list bg-base-100 rounded-box ">
-                  <li className="list-row p-0 py-2">
-                    <div>
-                      <img
-                        className="size-10 rounded-box"
-                        src="https://img.daisyui.com/images/profile/demo/1@94.webp"
-                      />
-                    </div>
-                    <div>
-                      <div>{singleData.seller_name}</div>
-                      <div className="text-xs uppercase font-semibold opacity-60">
-                        {singleData.email}
-                      </div>
-                    </div>
-                  </li>
+            {/* Completion History */}
+            <div className="bg-white rounded-lg shadow p-4 mb-6">
+              <h3 className="font-semibold text-lg mb-2 text-green-700">
+                Completion History
+              </h3>
+              {habit?.completionHistory?.length > 0 ? (
+                <ul className="list-disc list-inside text-gray-700 space-y-1">
+                  {habit.completionHistory.map((date, index) => (
+                    <li key={index}>
+                      {new Date(date).toLocaleDateString("en-GB")}
+                    </li>
+                  ))}
                 </ul>
-
-                <p className="font-bold">
-                  Location :{" "}
-                  <span className="font-normal">{singleData.location}</span>
-                </p>
-                <p className="font-bold">
-                  Contact :{" "}
-                  <span className="font-normal">
-                    {singleData.seller_contact}
-                  </span>
-                </p>
-                <p className="font-bold">
-                  Status :{" "}
-                  <div className="badge badge-outline bg-yellow-400  ml-2">
-                    {singleData.status}
-                  </div>
-                </p>
-              </div>
+              ) : (
+                <p className="text-gray-500 italic">Not completed yet</p>
+              )}
             </div>
+
+            {/* Complete Button */}
+            <button
+              onClick={handleComplete}
+              disabled={isCompletedToday() || loading}
+              className={`px-4 py-2 rounded font-medium ${
+                isCompletedToday()
+                  ? "bg-gray-300 cursor-not-allowed text-white"
+                  : "bg-green-600 text-white hover:bg-green-700"
+              }`}
+            >
+              {isCompletedToday()
+                ? "Completed ✅"
+                : loading
+                ? "Completing..."
+                : "Complete Habit"}
+            </button>
           </div>
         </div>
       </div>

@@ -1,17 +1,40 @@
 import { use } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../AuthContext/AuthContext";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const { createUser, signInwithgoogle } = use(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handelGooglelogin = () => {
     signInwithgoogle()
       .then((result) => {
         console.log(result.user);
+        navigate(location.state || "/");
+        const newUser = {
+          name: result.user.displayName,
+          email: result.user.email,
+          image: result.user.photoURL,
+        };
+        fetch("https://b12-a10-future-box-server-brown.vercel.app/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        })
+          .then((result) => {
+            result.json();
+          })
+          .then((data) => {
+            console.log("data after user save", data);
+          });
       })
       .catch((error) => {
         console.log(error);
+        toast.error(`❌ ${error.message}`);
       });
   };
 
@@ -23,8 +46,11 @@ const Register = () => {
     createUser(email, password)
       .then((result) => {
         console.log(result.user);
+        toast.success("🎉 Account created successfully!");
+        navigate(location.state || "/");
       })
       .catch((error) => {
+        toast.error(`❌ ${error.message}`);
         console.log(error);
       });
   };

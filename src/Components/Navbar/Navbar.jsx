@@ -1,6 +1,7 @@
 import { use } from "react";
 import { NavLink } from "react-router";
 import { AuthContext } from "../AuthContext/AuthContext";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const { user, logOut } = use(AuthContext);
@@ -9,9 +10,11 @@ const Navbar = () => {
     logOut()
       .then((result) => {
         console.log(result);
+        toast.info("👋 Logged out successfully!");
       })
       .catch((error) => {
         console.log(error);
+        toast.error(`❌ ${error.message}`);
       });
   };
 
@@ -33,7 +36,7 @@ const Navbar = () => {
       {user ? (
         <>
           <li>
-            <NavLink to={"/myhabits"}>My Habits</NavLink>
+            <NavLink to={"/myhabit"}>My Habits</NavLink>
           </li>
         </>
       ) : (
@@ -111,9 +114,10 @@ const Navbar = () => {
                   <div
                     tabIndex={0}
                     role="button"
-                    className="btn btn-ghost btn-circle avatar"
+                    className="btn btn-ghost btn-circle avatar tooltip"
+                    data-tip={user?.displayName || "Not Added Name"}
                   >
-                    <div className="w-10 rounded-full">
+                    <div className="w-10 rounded-full ">
                       <img
                         alt="Tailwind CSS Navbar component"
                         src={
@@ -124,8 +128,8 @@ const Navbar = () => {
                     </div>
                   </div>
                   <ul
-                    tabIndex="-1"
-                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                    tabIndex={0}
+                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-100 mt-3 w-52 p-2 shadow"
                   >
                     <li>
                       <a className="justify-between">

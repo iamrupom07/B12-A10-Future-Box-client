@@ -1,5 +1,6 @@
 import React from "react";
 import FeaturedHabitsCards from "./FeaturedHabitsCards";
+import { Link } from "react-router";
 
 const FeaturedHabits = ({ FeaturedDatas }) => {
   const myFeaturedHabits = FeaturedDatas;
@@ -17,7 +18,9 @@ const FeaturedHabits = ({ FeaturedDatas }) => {
           })}
         </div>
         <div className="flex justify-center py-6 my-6">
-          <button className="btn btn-outline btn-primary">See All</button>
+          <Link to={"/allhabits"}>
+            <button className="btn btn-outline btn-primary">See All</button>
+          </Link>
         </div>
       </div>
     </div>
