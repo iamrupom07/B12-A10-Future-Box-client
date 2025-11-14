@@ -10,5 +10,14 @@ This repository contains the client-side (frontend) code for **Habit Tracker**, 
 
 ---
 
+## ✨ Features
+
+* **User Authentication:** Secure user registration, login (including social login via [Google]), and logout.
+* **Responsive Design:** Fully responsive UI that works on desktop, tablet, and mobile devices.
+* **Protected Routes:** User-specific pages like "My Habits" are protected and only accessible to logged-in users.
+* **Dynamic Data:** Fetches and displays dynamic data (like [products, services, etc.]) from the server.
+* **CRUD Operations:** Users can create, read, update, and delete [their orders/items] through the UI.
+
+
 
 
