@@ -18,6 +18,18 @@ This repository contains the client-side (frontend) code for **Habit Tracker**, 
 * **Dynamic Data:** Fetches and displays dynamic data (like [products, services, etc.]) from the server.
 * **CRUD Operations:** Users can create, read, update, and delete [their orders/items] through the UI.
 
+---
+
+## 🛠️ Technology Stack
+
+* **Framework:** [React.js](https://reactjs.org/)
+* **Routing:** [React Router](https://reactrouter.com/)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/) & [daisyUI](https://daisyui.com/) (or [Bootstrap / Material-UI])
+* **Authentication:** [Firebase Authentication](https://firebase.google.com/products/auth)
+* **Hosting:** [Firebase Hosting / Netlify / Vercel]
+
+---
+
 
 
 
