@@ -1,5 +1,5 @@
 import { use } from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import { AuthContext } from "../AuthContext/AuthContext";
 import { toast } from "react-toastify";
 
@@ -132,14 +132,14 @@ const Navbar = () => {
                     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-100 mt-3 w-52 p-2 shadow"
                   >
                     <li>
-                      <a className="justify-between">
-                        Profile
-                        <span className="badge">New</span>
-                      </a>
+                      <Link to={"/profile"}>
+                        <a className="justify-between">
+                          Profile
+                          <span className="badge">New</span>
+                        </a>
+                      </Link>
                     </li>
-                    <li>
-                      <a>Settings</a>
-                    </li>
+
                     <li>
                       <a onClick={handelLogout}>Logout</a>
                     </li>

@@ -29,14 +29,11 @@ const EditHabitModal = ({ habit, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch(
-      `https://b12-a10-future-box-server-brown.vercel.app/allhabits/${habit._id}`,
-      {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      }
-    );
+    await fetch(`https://habittrackerapi.vercel.app/allhabits/${habit._id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
     fetchHabits(); // update context
     onClose(); // close modal
   };

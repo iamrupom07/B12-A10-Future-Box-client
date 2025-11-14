@@ -35,7 +35,7 @@ const AddHabitPage = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/allhabits", {
+      const res = await fetch("https://habittrackerapi.vercel.app/allhabits", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newHabit),

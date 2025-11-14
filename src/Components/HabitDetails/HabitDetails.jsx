@@ -1,17 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { HabitContext } from "../HabitContext/HabitContext";
+import { toast } from "react-toastify";
 
 const HabitDetails = ({ datas }) => {
   const [habit, setHabit] = useState(datas);
   const [loading, setLoading] = useState(false);
-
-  if (!habit) {
-    return (
-      <div className="min-h-screen flex justify-center items-center text-gray-500">
-        Loading habit details...
-      </div>
-    );
-  }
+  const { completeHabit } = useContext(HabitContext);
 
   const isCompletedToday = () => {
     const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
@@ -23,26 +18,32 @@ const HabitDetails = ({ datas }) => {
 
     setLoading(true);
 
-    const today = new Date().toISOString().split("T")[0];
-    const updatedHistory = [...(habit.completionHistory || []), today];
-
     try {
-      const res = await fetch(`http://localhost:3000/allhabits/${habit._id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ completionHistory: updatedHistory }),
-      });
+      // Call the global completeHabit function
+      await completeHabit(habit._id);
 
-      if (!res.ok) throw new Error("Failed to mark habit complete");
-
-      setHabit({ ...habit, completionHistory: updatedHistory });
+      // Update local habit state to reflect in detail page
+      const today = new Date().toISOString().split("T")[0];
+      setHabit((prev) => ({
+        ...prev,
+        completionHistory: [...(prev.completionHistory || []), today],
+      }));
+      toast.success("Habit completed");
     } catch (err) {
       console.error(err);
-      alert("Error marking habit as complete");
+      toast.error("Error marking habit complete");
     } finally {
       setLoading(false);
     }
   };
+
+  if (!habit) {
+    return (
+      <div className="min-h-screen flex justify-center items-center text-gray-500">
+        Loading habit details...
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 bg-base-200 min-h-screen flex items-center">

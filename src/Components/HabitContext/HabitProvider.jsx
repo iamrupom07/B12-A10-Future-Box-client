@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../AuthContext/AuthContext";
 import { HabitContext } from "./HabitContext";
+import { toast } from "react-toastify";
 
 export const HabitProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
@@ -14,7 +15,7 @@ export const HabitProvider = ({ children }) => {
   const fetchHabits = async () => {
     try {
       const res = await fetch(
-        `https://b12-a10-future-box-server-brown.vercel.app/allhabits?email=${user.email}`
+        `https://habittrackerapi.vercel.app/allhabits?email=${user.email}`
       );
       const data = await res.json();
       setHabits(data);
@@ -27,35 +28,32 @@ export const HabitProvider = ({ children }) => {
 
   const addHabit = async (habit) => {
     try {
-      const res = await fetch(
-        "https://b12-a10-future-box-server-brown.vercel.app/allhabits",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(habit),
-        }
-      );
+      const res = await fetch("https://habittrackerapi.vercel.app/allhabits", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(habit),
+      });
       const savedHabit = await res.json();
-      setHabits((prev) => [...prev, savedHabit]); // Real-time update
+      setHabits((prev) => [...prev, savedHabit]);
+      toast.success("Habit Added Successfully");
     } catch (err) {
       console.error(err);
+      toast.error("Failed");
     }
   };
 
   const updateHabit = async (habitId, updatedData) => {
     try {
-      const res = await fetch(
-        `https://b12-a10-future-box-server-brown.vercel.app/allhabits/${habitId}`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updatedData),
-        }
-      );
-      const updatedHabit = await res.json();
+      await fetch(`https://habittrackerapi.vercel.app/allhabits/${habitId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedData),
+      });
+
       setHabits((prev) =>
-        prev.map((h) => (h._id === habitId ? updatedHabit : h))
+        prev.map((h) => (h._id === habitId ? { ...h, ...updatedData } : h))
       );
+      toast.success("Habit Updated Successfull");
     } catch (err) {
       console.error(err);
     }
@@ -63,13 +61,11 @@ export const HabitProvider = ({ children }) => {
 
   const deleteHabit = async (habitId) => {
     try {
-      await fetch(
-        `https://b12-a10-future-box-server-brown.vercel.app/allhabits/${habitId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      await fetch(`https://habittrackerapi.vercel.app/allhabits/${habitId}`, {
+        method: "DELETE",
+      });
       setHabits((prev) => prev.filter((h) => h._id !== habitId));
+      toast.success("Deleted Successfully");
     } catch (err) {
       console.error(err);
     }
@@ -83,6 +79,7 @@ export const HabitProvider = ({ children }) => {
     const updatedHistory = [...(habit.completionHistory || []), today];
 
     await updateHabit(habitId, { completionHistory: updatedHistory });
+    toast.success("successful");
   };
 
   const habitInfo = {

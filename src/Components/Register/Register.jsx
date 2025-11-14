@@ -18,7 +18,7 @@ const Register = () => {
           email: result.user.email,
           image: result.user.photoURL,
         };
-        fetch("https://b12-a10-future-box-server-brown.vercel.app/users", {
+        fetch("https://habittrackerapi.vercel.app/users", {
           method: "POST",
           headers: {
             "content-type": "application/json",

@@ -17,6 +17,7 @@ import MyHabitPage from "./Pages/MyHabitPage.jsx";
 import HabitProvider from "./Components/HabitContext/HabitProvider.jsx";
 import NotFoundPage from "./Pages/NotFoundPage.jsx";
 import { ToastContainer } from "react-toastify";
+import UserProfile from "./Components/profile/UserProfile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,9 +27,7 @@ const router = createBrowserRouter([
       {
         index: true,
         loader: () =>
-          fetch(
-            "https://b12-a10-future-box-server-brown.vercel.app/featuredHabits"
-          ),
+          fetch("https://habittrackerapi.vercel.app/featuredHabits"),
         Component: HomePage,
       },
       {
@@ -57,19 +56,25 @@ const router = createBrowserRouter([
       },
       {
         path: "/allhabits",
-        loader: () =>
-          fetch("https://b12-a10-future-box-server-brown.vercel.app/allhabits"),
+        loader: () => fetch("https://habittrackerapi.vercel.app/allhabits"),
         element: <AllHabitPage />,
       },
       {
         path: "/habitdetails/:id",
         loader: ({ params }) =>
-          fetch(
-            `https://b12-a10-future-box-server-brown.vercel.app/allhabits/${params.id}`
-          ),
+          fetch(`https://habittrackerapi.vercel.app/allhabits/${params.id}`),
         element: (
           <PrivateRoute>
             <HabitDetailsPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/profile",
+
+        element: (
+          <PrivateRoute>
+            <UserProfile></UserProfile>
           </PrivateRoute>
         ),
       },
