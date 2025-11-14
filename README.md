@@ -26,7 +26,7 @@ This repository contains the client-side (frontend) code for **Habit Tracker**, 
 * **Routing:** [React Router](https://reactrouter.com/)
 * **Styling:** [Tailwind CSS](https://tailwindcss.com/) & [daisyUI](https://daisyui.com/) (or [Bootstrap / Material-UI])
 * **Authentication:** [Firebase Authentication](https://firebase.google.com/products/auth)
-* **Hosting:** [Firebase Hosting / Netlify / Vercel]
+* **Hosting:** [ Netlify ]
 
 ---
 
