@@ -87,6 +87,10 @@ The application will open in your browser at `http://localhost:5173` (for Vite)
 ---
 
 
+## 🧑‍💻 Author
+
+* **Rupom (iamrupom07)**
+* GitHub: [@iamrupom07](https://github.com/iamrupom07)
 
 
 
