@@ -31,5 +31,16 @@ This repository contains the client-side (frontend) code for **Habit Tracker**, 
 ---
 
 
+## ⚙️ Getting Started
+
+To get a local copy up and running, follow these simple steps.
+
+### Prerequisites
+
+You must have [Node.js](https://nodejs.org/en/) (which includes npm) installed on your local machine.
+
+
+
+
 
 
