@@ -77,10 +77,7 @@ You must have [Node.js](https://nodejs.org/en/) (which includes npm) installed o
     ```sh
     npm run dev
     ```
-    or
-    ```sh
-    npm start
-    ```
+ 
 
 The application will open in your browser at `http://localhost:5173` (for Vite)
 
