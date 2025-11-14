@@ -40,6 +40,52 @@ To get a local copy up and running, follow these simple steps.
 You must have [Node.js](https://nodejs.org/en/) (which includes npm) installed on your local machine.
 
 
+### Installation
+
+1.  **Clone the repository:**
+    ```sh
+    git clone [https://github.com/iamrupom07/B12-A10-Future-Box-client.git](https://github.com/iamrupom07/B12-A10-Future-Box-client.git)
+    ```
+
+2.  **Navigate to the project directory:**
+    ```sh
+    cd B12-A10-Future-Box-client
+    ```
+
+3.  **Install dependencies:**
+    ```sh
+    npm install
+    ```
+
+4.  **Create an environment file:**
+    Create a `.env.local` file in the root of the project. Add the URL of your **local** or **live** server API.
+
+    *(Note: React projects require variables to start with `VITE_` or `REACT_APP_`)*
+
+    **If using Vite (e.g., `VITE_`):**
+    ```.env.local
+    VITE_API_URL=[http://localhost:5000]
+    ```
+    **If using Create React App (e.g., `REACT_APP_`):**
+    ```.env.local
+    REACT_APP_API_URL=[http://localhost:5000]
+    ```
+
+    *(If you are using Firebase, add your Firebase config keys here as well.)*
+
+5.  **Run the application:**
+    ```sh
+    npm run dev
+    ```
+    or
+    ```sh
+    npm start
+    ```
+
+The application will open in your browser at `http://localhost:5173` (for Vite)
+
+---
+
 
 
 
